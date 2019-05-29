@@ -172,7 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Astroid.cpp" />
-    <ClCompile Include="Astroids.cpp" />
+    <ClCompile Include="AsteroidManager.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Thrust.cpp" />
@@ -185,7 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astroid.h" />
-    <ClInclude Include="Astroids.h" />
+    <ClInclude Include="AsteroidManager.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Thrust.h" />

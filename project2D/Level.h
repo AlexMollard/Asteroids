@@ -12,6 +12,8 @@ public:
 	void Update(float deltaTime);
 	void Draw(aie::Renderer2D* renderer);
 
+	void GetShipHit();
+	bool SetShipHit();
 	Tank* GetShip();
 private:
 	CollisionManager* _collisionManager;

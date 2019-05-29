@@ -27,6 +27,10 @@ public:
 	void SetRotation(float radians);
 	float GetRotation();
 	float GetLocalRotation();
+	bool collided;
+
+	void SetCollided(bool hit);
+	bool GetCollided();
 
 	void SetScale(Vector2 v2Scale);
 	Vector2 GetScale();
@@ -38,6 +42,8 @@ public:
 	Vector2 _V2ColliderMax;
 
 	Collider* GetCollider() { return _Collider; }
+	Collider* GetCollider2() { return _Collider2; }
+	bool HasCollider2();
 
 	std::string GameObject::GetName();
 	void SetName(std::string name);
@@ -53,6 +59,7 @@ protected:
 	aie::Texture* _Texture;
 
 	Collider* _Collider;
+	Collider* _Collider2 = nullptr;
 private:
 	void AddChild(GameObject* Child);
 	void RemoveChild(GameObject* Child);

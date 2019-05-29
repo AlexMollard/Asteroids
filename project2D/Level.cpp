@@ -49,3 +49,8 @@ Tank* Level::GetShip()
 {
 	return _Tank;
 }
+
+bool Level::SetShipHit()
+{
+	return true;
+}

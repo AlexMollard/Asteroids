@@ -6,6 +6,7 @@ GameObject::GameObject()
 	_Texture = nullptr;
 	_Parent = nullptr;
 	_Collider = nullptr;
+	collided = 0;
 }
 
 GameObject::GameObject(const char* TextureName)
@@ -13,6 +14,7 @@ GameObject::GameObject(const char* TextureName)
 	_Texture = new aie::Texture(TextureName);
 	_Parent = nullptr;
 	_Collider = nullptr;
+	collided = 0;
 }
 
 
@@ -45,7 +47,13 @@ void GameObject::UpDateGlobalTransform()
 
 	//Collsion
 	if (_Collider)
+	{
 		_Collider->SetPostition(_GlobalTransform.GetTranslation());
+		//_Collider->SetRotation(_GlobalTransform.getRotation());
+	}
+
+	if (_Collider2)
+		_Collider2->SetPostition(_GlobalTransform.GetTranslation());
 
 	for (GameObject* _Child : _ChildList)
 	{
@@ -150,4 +158,22 @@ void GameObject::SetName(std::string name)
 std::string GameObject::GetName()
 {
 	return _Name;
+}
+
+bool GameObject::GetCollided()
+{
+	return collided;
+}
+
+void GameObject::SetCollided(bool hit)
+{
+	collided = hit;
+}
+
+bool GameObject::HasCollider2()
+{
+	if (GetCollider2())
+		return true;
+	else
+		return false;
 }

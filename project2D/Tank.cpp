@@ -7,9 +7,15 @@ using namespace std;
 Tank::Tank(const char* FileName) : GameObject(FileName)
 {
 	_Acceleration = 20.0f;
-	_Collider = new Collider(Vector2(-10, -10), Vector2(10, 10));
+	_Collider = new Collider(Vector2(-10, -40), Vector2(10, 40));
+	_Collider2 = new Collider(Vector2(-40, -10), Vector2(40, 10));
+
+	_ShipTexture = new aie::Texture("./textures/newShip.png");
+	_ShipTextureFlash = new aie::Texture("./textures/newShip_hit.png");
+
 	_Name = "Space_Ship";
 	SetName(_Name);
+	_Health = 100;
 }
 
 Tank::~Tank()
@@ -18,9 +24,15 @@ Tank::~Tank()
 
 void Tank::Update(float deltaTime)
 {
+	time = deltaTime;
 	aie::Application* application = aie::Application::GetInstance();
 	aie::Input* _Input = aie::Input::GetInstance();
 	_PrevPos = GetPosition();
+
+	if (_Health <= 0)
+	{
+		SetParent(nullptr);
+	}
 
 	//Calculate Movement
 	Vector3 _TempPostion = _GlobalTransform[1];
@@ -110,11 +122,11 @@ void Tank::Update(float deltaTime)
 	else if (_Position.x < 0 - 15)
 		_Position.x = application->GetWindowWidth() + 15;
 
-	//Debugging ship movement
-	cout << endl;
-	cout << "------- New Update -------" << endl;
-	cout << "Velocity: X: " << _Velocity.x << " Y: " << _Velocity.y << endl;
-	cout << "Acceleration: " << _Acceleration << endl;
+	////Debugging ship movement
+	//cout << endl;
+	//cout << "------- New Update -------" << endl;
+	//cout << "Velocity: X: " << _Velocity.x << " Y: " << _Velocity.y << endl;
+	//cout << "Acceleration: " << _Acceleration << endl;
 
 	//Sets ships position
 	SetPosition(_Position);
@@ -131,4 +143,33 @@ void Tank::OnCollision(GameObject* OtherObject)
 std::string Tank::GetName()
 {
 	return _Name;
+}
+
+void Tank::Hit()
+{
+	_Position = GetPosition();
+	_Velocity = Vector2(0, 0);
+	_Position = _Position + (_Velocity * time);
+	_Health -= 10;
+	SetPosition(_Position);
+}
+
+int Tank::GetHealth()
+{
+	return _Health;
+}
+
+void Tank::SetTexture(aie::Texture* tex)
+{
+	_Texture = tex;
+}
+
+aie::Texture* Tank::GetShipTexture()
+{
+	return _ShipTexture;
+}
+
+aie::Texture* Tank::GetShipHitTexture()
+{
+	return _ShipTextureFlash;
 }

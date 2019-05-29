@@ -16,6 +16,8 @@ public:
 	void AddObject(GameObject* object);
 	void RemoveObject();
 	GameObject* GetObject();
+	bool loop = true;
+
 private:
 	std::vector<GameObject*> _ObjectList;
 };

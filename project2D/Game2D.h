@@ -4,7 +4,7 @@
 
 class Player;
 class Level;
-class Astroids;
+class AsteroidManager;
 
 class Game2D : public aie::Game
 {
@@ -20,8 +20,11 @@ public:
 
 	float width;
 	float height;
-
+	float _DefaultCamX;
+	float _DefaultCamY;
+	float timer;
 	float _size;
+	float _Shake;
 	int frame;
 protected:
 	aie::Renderer2D*	m_2dRenderer;
@@ -29,12 +32,12 @@ protected:
 	// Example textures.
 	aie::Texture*		m_texture;
 	aie::Texture*		m_texture2;
-	aie::Font*			m_font;
+	aie::Font*			_Font;
 
 	// Player.
 	Player* m_Player;
 
 	Level* _Level;
 
-	Astroids* _Astroids;
+	AsteroidManager* _Astroids;
 };

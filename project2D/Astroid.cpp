@@ -15,23 +15,21 @@ Astroid::Astroid(const char* FileName) : GameObject(FileName)
 	_TempPostion = _GlobalTransform[1];
 
 	_Speed = 0.10;
-	
-	cout << rand() % application->GetWindowWidth() << endl;
 
 	_Position = Vector2(rand() + application->GetWindowWidth(), rand() + application->GetWindowHeight());
 	SetPosition(_Position);
 
-	if (FileName == "./textures/rock_small.png")
+	if (FileName == "./textures/rock_small.png" || FileName == "./textures/rock_small_blue.png")
 	{
 		_Collider = new Collider(Vector2(-20, -20), Vector2(20, 20));
-		_ForwardSpeed = 500;
+		_ForwardSpeed = 250;
 		_Name = "Small Asteroid";
 		SetName(_Name);
 	}
 	else
 	{
 		_Collider = new Collider(Vector2(-35, -35), Vector2(35, 35));
-		_ForwardSpeed = 250;
+		_ForwardSpeed = 125;
 		_Name = "Large Asteroid";
 		SetName(_Name);
 	}
@@ -86,6 +84,7 @@ void Astroid::Update(float deltaTime)
 		_TempPostion = _GlobalTransform[1];
 		_Speed = (float)rand() / RAND_MAX;
 	}
+
 
 	//Rotation
 	SetRotation(GetRotation() + (_Speed / 10));
