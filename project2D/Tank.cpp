@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-Tank::Tank(const char* FileName) : GameObject(FileName)
+Tank::Tank()
 {
 	_Acceleration = 20.0f;
 	_Collider = new Collider(Vector2(-10, -40), Vector2(10, 40));
@@ -12,6 +12,8 @@ Tank::Tank(const char* FileName) : GameObject(FileName)
 
 	_ShipTexture = new aie::Texture("./textures/newShip.png");
 	_ShipTextureFlash = new aie::Texture("./textures/newShip_hit.png");
+	
+	_Texture = _ShipTexture;
 
 	_Name = "Space_Ship";
 	SetName(_Name);
@@ -20,6 +22,31 @@ Tank::Tank(const char* FileName) : GameObject(FileName)
 
 Tank::~Tank()
 {
+	_Texture = nullptr;
+	
+	if (_ShipTexture)
+	{
+		delete _ShipTexture;
+		_ShipTexture = nullptr;
+	}
+
+	if (_ShipTextureFlash)
+	{
+		delete _ShipTextureFlash;
+		_ShipTextureFlash = nullptr;
+	}
+
+	if (_Collider)
+	{
+		delete _Collider;
+		_Collider = nullptr;
+	}
+
+	if (_Collider2)
+	{
+		delete _Collider2;
+		_Collider2 = nullptr;
+	}
 }
 
 void Tank::Update(float deltaTime)

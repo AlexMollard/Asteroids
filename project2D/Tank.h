@@ -5,7 +5,7 @@
 class Tank : public GameObject
 {
 public:
-	Tank(const char* FileName);
+	Tank();
 	~Tank();
 
 	void Update(float deltaTime);

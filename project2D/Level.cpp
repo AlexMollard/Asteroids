@@ -1,5 +1,5 @@
 #include "Level.h"
-
+#include "Bullet.h"
 #include "Turret.h"
 #include "Thrust.h"
 
@@ -8,7 +8,7 @@ Level::Level()
 {
 	_collisionManager = new CollisionManager();
 
-	_Tank = new Tank("./textures/newShip.png");
+	_Tank = new Tank();
 	_Tank->SetParent(this);
 	_Tank->SetPosition(Vector2(500,500));
 	_Tank->UpDateGlobalTransform();
@@ -18,12 +18,16 @@ Level::Level()
 	_Turret->SetParent(_Tank);
 	_Turret->SetPosition(Vector2(0, 0));
 	_Turret->UpDateGlobalTransform();
-	//_collisionManager->AddObject(_Turret);
 
 	Thrust* _Thrust = new Thrust("./textures/Thrust.png");
 	_Thrust->SetParent(_Tank);
 	_Thrust->SetPosition(Vector2(0, -25));
 	_Thrust->UpDateGlobalTransform();
+	
+	Bullet* _Bullet = new Bullet("./textures/Bullet.png");
+	_Bullet->SetParent(_Turret);
+	_Bullet->SetPosition(Vector2(0, -25));
+	_Bullet->UpDateGlobalTransform();
 
 }
 
