@@ -1,0 +1,15 @@
+Need To-Do:
+- Get turret direction to bullet object
+- Make bullets position move
+- If bullet is off screen set _Alive to false
+- *Draw Bullets*
+
+
+Optional:
+- Make GetBullet take longest alive bullet and kill it
+  This could be done by making a array that could store 
+  the bullet objects in order by what was fired first and
+  then killing them if they are at the start of the array.
+	- This Could cause a problem as it wouldn't be able to
+	  delete elements once they are dead.
+  

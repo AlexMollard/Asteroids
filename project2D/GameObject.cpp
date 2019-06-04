@@ -177,3 +177,8 @@ bool GameObject::HasCollider2()
 	else
 		return false;
 }
+
+void GameObject::SetLocalRotation(float newRotation)
+{
+	_LocalTransform.rotation = newRotation;
+}

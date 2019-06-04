@@ -44,6 +44,7 @@ public:
 	Collider* GetCollider() { return _Collider; }
 	Collider* GetCollider2() { return _Collider2; }
 	bool HasCollider2();
+	void SetLocalRotation(float newRotation);
 
 	std::string GameObject::GetName();
 	void SetName(std::string name);

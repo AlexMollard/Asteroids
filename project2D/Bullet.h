@@ -5,19 +5,24 @@
 class Bullet : public GameObject
 {
 public:
+	// Constructor
 	Bullet(const char* FileName);
-	~Bullet();
 
+	// Update/Draw Functions
 	void Update(float deltaTime);
+	virtual void Draw(aie::Renderer2D* renderer);
 
-	void Hit();
+	// Alive Functions
+	void SetAlive(bool setting) { _Alive = setting; };
+	bool GetAlive()				{ return _Alive; };
 
-	bool fired;
-	float _Acceleration = 0.0f;
-	float rotation;
+	// Fire Functions
+	void Fire(Vector2 Position, Vector2 Rotation);
 
-	Vector2 _Velocity;
-	Vector2 _Position;
-	Vector3 _TempPostion;
+	// Variables
+	Vector2 _BulletPos;
+	Vector2 _Direction;
+	bool _Alive;
+	GameObject* _Turret;
 };
 

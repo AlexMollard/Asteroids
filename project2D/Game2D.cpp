@@ -60,8 +60,11 @@ void Game2D::Update(float deltaTime)
 {
 	aie::Application* application = aie::Application::GetInstance();
 	aie::Input* input = aie::Input::GetInstance(); 
+
 	_Level->Update(deltaTime);
 	_Level->UpDateGlobalTransform();
+
+	_Level->GetTurret()->UpdateMouse(deltaTime);
 
 	_Astroids->Update(deltaTime);
 	_Astroids->UpDateGlobalTransform();

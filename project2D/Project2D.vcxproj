@@ -174,6 +174,7 @@
     <ClCompile Include="Astroid.cpp" />
     <ClCompile Include="AsteroidManager.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Thrust.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Astroid.h" />
     <ClInclude Include="AsteroidManager.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletManager.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Thrust.h" />

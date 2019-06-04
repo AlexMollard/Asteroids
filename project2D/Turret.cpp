@@ -1,38 +1,59 @@
 #include "Turret.h"
 #include "Input.h"
+#include <iostream>
 
+using namespace std;
 
 Turret::Turret(const char* FileName) : GameObject(FileName)
 {
-	//_Collider = new Collider(Vector2(-1, -1), Vector2(1, 1));
-	_Speed = 1;
-	_Acceleration = 0.0f;
-}
+	counter = 0;
+	SetName("Turret");
 
-Turret::~Turret()
-{
+	_BulletPool = new BulletManager();
+	_BulletPool->SetParent(this);
 }
 
 void Turret::Update(float deltaTime)
 {
+}
+
+void Turret::UpdateMouse(float deltaTime)
+{
 	aie::Input* _Input = aie::Input::GetInstance();
 
-	if (_Input->IsKeyDown(aie::INPUT_KEY_LEFT_SHIFT))
-		_Speed = 100.0f * deltaTime;
-	else
-		_Speed = 50.0f * deltaTime;
+	// ---------- Point turret to mouse ----------
+	Vector2 _Mouse = Vector2(_Input->GetMouseX(), _Input->GetMouseY());
+	Vector2 _Rotation = _Mouse - _GlobalTransform.getPosition();
 
-	//Calculate Rotation
-	float _Rotation = GetLocalRotation();
-	if (_Input->IsKeyDown(aie::INPUT_KEY_LEFT))
+	_Rotation.normalise();
+	_GlobalTransform.m[3] = _Rotation.x;
+	_GlobalTransform.m[4] = _Rotation.y;
+
+	_GlobalTransform.m[0] = _Rotation.y;
+	_GlobalTransform.m[1] = -_Rotation.x;
+	// -------------------------------------------
+
+		// If player is shooting
+	if (_Input->WasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_LEFT))
 	{
-		_Rotation += _Speed / 15;
+		Bullet* bullet = _BulletPool->GetBullet();
+		bullet->Fire(_GlobalTransform.getPosition(), _Rotation);
+		_Shooting = true;
 	}
-	if (_Input->IsKeyDown(aie::INPUT_KEY_RIGHT))
-	{
-		_Rotation -= _Speed / 15;
-	}
-	SetRotation(_Rotation);
+	else
+		_Shooting = false;
+
+	//_BulletPool->Update(deltaTime, _Shooting, _Rotation);
 
 	GameObject::Update(deltaTime);
+}
+
+void Turret::SetShooting(bool setting)
+{
+	_Shooting = setting;
+}
+
+bool Turret::GetShooting()
+{
+	return _Shooting;
 }

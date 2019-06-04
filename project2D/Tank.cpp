@@ -177,7 +177,7 @@ void Tank::Hit()
 	_Position = GetPosition();
 	_Velocity = Vector2(0, 0);
 	_Position = _Position + (_Velocity * time);
-	_Health -= 10;
+	//_Health -= 10;
 	SetPosition(_Position);
 }
 
