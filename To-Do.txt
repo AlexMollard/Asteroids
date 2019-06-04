@@ -12,4 +12,4 @@ Optional:
   then killing them if they are at the start of the array.
 	- This Could cause a problem as it wouldn't be able to
 	  delete elements once they are dead.
-  
+  BOOM!
