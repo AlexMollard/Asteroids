@@ -19,6 +19,8 @@ void Turret::Update(float deltaTime)
 
 void Turret::UpdateMouse(float deltaTime)
 {
+	//cout << _BulletPool->_Bullet[1]->GetCollider() << endl;
+
 	aie::Input* _Input = aie::Input::GetInstance();
 
 	// ---------- Point turret to mouse ----------
@@ -45,6 +47,7 @@ void Turret::UpdateMouse(float deltaTime)
 
 	//_BulletPool->Update(deltaTime, _Shooting, _Rotation);
 
+	_BulletPool->Update(deltaTime);
 	GameObject::Update(deltaTime);
 }
 

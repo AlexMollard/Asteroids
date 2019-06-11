@@ -4,6 +4,7 @@
 #include "Tank.h"
 #include "Turret.h"
 #include "Bullet.h"
+#include "AsteroidManager.h"
 
 class Level : public GameObject
 {
@@ -19,7 +20,7 @@ public:
 	Bullet* GetBullet();
 private:
 	CollisionManager* _collisionManager;
-
+	AsteroidManager* _Astroids;
 	Tank* _Tank;
 	Turret* _Turret;
 	Bullet* _Bullet;

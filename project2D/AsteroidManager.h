@@ -7,7 +7,7 @@
 class AsteroidManager : public GameObject
 {
 public:
-	AsteroidManager();
+	AsteroidManager(CollisionManager* collisionManager);
 	~AsteroidManager();
 
 	void Update(float deltaTime);
@@ -17,10 +17,7 @@ public:
 	Astroid* GetLargeAsteroid(int index);
 
 	int _RandomInt = 0;
-
-	bool CheckForCollisions(Tank* player);
 private:
-	CollisionManager* _collisionManager;
 	Astroid* _AsteroidsSmall[4];
 	Astroid* _AsteroidsSmallBlue[4];
 	Astroid* _AsteroidsLarge[4];

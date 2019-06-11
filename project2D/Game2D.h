@@ -23,6 +23,7 @@ public:
 	float _DefaultCamX;
 	float _DefaultCamY;
 	float timer;
+	float score;
 	float _size;
 	float _Shake;
 	int frame;

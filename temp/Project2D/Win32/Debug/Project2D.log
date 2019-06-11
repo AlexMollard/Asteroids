@@ -1,1 +1,1 @@
-﻿c:\users\s191067\desktop\asteroids\asteroids.git\trunk\project2d\bulletmanager.cpp(39): warning C4715: 'BulletManager::GetBullet': not all control paths return a value
+﻿c:\users\s191067\desktop\asteroids\asteroids.git\trunk\project2d\bulletmanager.cpp(52): warning C4715: 'BulletManager::GetBullet': not all control paths return a value

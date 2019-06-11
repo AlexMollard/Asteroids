@@ -7,8 +7,7 @@ using namespace std;
 Tank::Tank()
 {
 	_Acceleration = 20.0f;
-	_Collider = new Collider(Vector2(-10, -40), Vector2(10, 40));
-	_Collider2 = new Collider(Vector2(-40, -10), Vector2(40, 10));
+	_Collider = new Collider(Vector2(-40, -40), Vector2(40, 40));
 
 	_ShipTexture = new aie::Texture("./textures/newShip.png");
 	_ShipTextureFlash = new aie::Texture("./textures/newShip_hit.png");
@@ -18,6 +17,7 @@ Tank::Tank()
 	_Name = "Space_Ship";
 	SetName(_Name);
 	_Health = 100;
+	_Timer = 3;
 }
 
 Tank::~Tank()
@@ -149,14 +149,30 @@ void Tank::Update(float deltaTime)
 	else if (_Position.x < 0 - 15)
 		_Position.x = application->GetWindowWidth() + 15;
 
-	////Debugging ship movement
-	//cout << endl;
-	//cout << "------- New Update -------" << endl;
-	//cout << "Velocity: X: " << _Velocity.x << " Y: " << _Velocity.y << endl;
-	//cout << "Acceleration: " << _Acceleration << endl;
-
 	//Sets ships position
 	SetPosition(_Position);
+
+	//Sets ships texture to flash on hit
+	if (_Timer <= 2.9 && _Timer >= 0)
+	{
+		_Timer += 1 * time;
+		if (_Timer < 0.5)
+			SetTexture(GetShipHitTexture());
+		else if (_Timer < 1)
+			SetTexture(GetShipTexture());
+		else if (_Timer < 1.5)
+			SetTexture(GetShipHitTexture());
+		else if (_Timer < 2)
+			SetTexture(GetShipTexture());
+		else if (_Timer < 2.5)
+			SetTexture(GetShipHitTexture());
+		else if (_Timer < 3)
+			SetTexture(GetShipTexture());
+	}
+	else if (_Timer >= 2.9)
+	{
+		_Timer = 3;
+	}
 
 	//Updates all objects
 	GameObject::Update(deltaTime);
@@ -164,7 +180,13 @@ void Tank::Update(float deltaTime)
 
 void Tank::OnCollision(GameObject* OtherObject)
 {
-	SetPosition(_PrevPos);
+	if (_Timer > 2.9)
+	{
+		Vector2 _Position = (Vector2(10000, 10000));
+		OtherObject->SetPosition(_Position);
+		_Timer = 0;
+		Hit();
+	}
 }
 
 std::string Tank::GetName()
@@ -177,7 +199,7 @@ void Tank::Hit()
 	_Position = GetPosition();
 	_Velocity = Vector2(0, 0);
 	_Position = _Position + (_Velocity * time);
-	//_Health -= 10;
+	_Health -= 10;
 	SetPosition(_Position);
 }
 
@@ -199,4 +221,9 @@ aie::Texture* Tank::GetShipTexture()
 aie::Texture* Tank::GetShipHitTexture()
 {
 	return _ShipTextureFlash;
+}
+
+float Tank::GetTimer()
+{
+	return _Timer;
 }

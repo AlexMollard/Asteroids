@@ -11,6 +11,7 @@ public:
 	void Update(float deltaTime);
 	void OnCollision(GameObject* OtherObject);
 	void Hit();
+	float GetTimer();
 	std::string GetName();
 
 	aie::Texture* GetShipTexture();
@@ -28,7 +29,7 @@ public:
 	Vector2 _Position;
 	Vector2 ForwardBuf;
 	Vector2 _PrevPos;
-
+	float _Timer;
 
 	aie::Texture*	_ShipTexture;
 	aie::Texture*	_ShipTextureFlash;

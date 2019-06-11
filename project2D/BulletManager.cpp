@@ -1,5 +1,7 @@
 #include "BulletManager.h"
+#include <iostream>
 
+using namespace std;
 
 BulletManager::BulletManager()
 {
@@ -10,17 +12,20 @@ BulletManager::BulletManager()
 	{
 		_Bullet[i] = new Bullet("./textures/Bullet.png");
 		_Bullet[i]->SetParent(this);
+		_Bullet[i]->SetName("Bullet");
 	}
+	_OldestBullet = new Bullet("./textures/Bullet.png");
+	_OldestBullet->SetTimeAlive(-10);
+	_OldestBullet->SetName("Bullet");
 }
 
-void BulletManager::Update(float deltaTime, bool shooting, Vector2 _NewRotation) 
+BulletManager::~BulletManager()
 {
-	if (shooting)
+	if (_OldestBullet)
 	{
-		//GetBullet()->Fire(_NewRotation);
+		delete _OldestBullet;
+		_OldestBullet = nullptr;
 	}
-
-
 }
 
 Bullet* BulletManager::GetBullet()
@@ -31,9 +36,30 @@ Bullet* BulletManager::GetBullet()
 		{
 			return _Bullet[i];
 		}
+		else if (AreAllBulletsAlive())
+		{
+			_OldestBullet->SetTimeAlive(-10.0f);
+			for (int n = 0; n < 10; n++)
+			{
+				if (_Bullet[n]->GetTimeAlive() > _OldestBullet->GetTimeAlive())
+				{
+					_OldestBullet = _Bullet[n];
+				}
+			}
+			return _OldestBullet;
+		}
 	}
-
-	// No bullets alive
-
-	// Take longest alive bullet and kill it
 }
+
+bool BulletManager::AreAllBulletsAlive()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		if (_Bullet[i]->GetAlive() == false)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+

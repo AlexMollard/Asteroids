@@ -12,8 +12,10 @@ Astroid::Astroid(const char* FileName) : GameObject(FileName)
 {
 	aie::Application* application = aie::Application::GetInstance();
 
-	_TempPostion = _GlobalTransform[1];
+	_TempPostion = _LocalTransform[1];
 
+	_FX = _LocalTransform.m[3];
+	_FY = _LocalTransform.m[4];
 	_Speed = 0.10;
 
 	_Position = Vector2(rand() + application->GetWindowWidth(), rand() + application->GetWindowHeight());
@@ -21,14 +23,14 @@ Astroid::Astroid(const char* FileName) : GameObject(FileName)
 
 	if (FileName == "./textures/rock_small.png" || FileName == "./textures/rock_small_blue.png")
 	{
-		_Collider = new Collider(Vector2(-20, -20), Vector2(20, 20));
+		_Collider = new Collider(Vector2(-15, -15), Vector2(15, 15));
 		_ForwardSpeed = 250;
 		_Name = "Small Asteroid";
 		SetName(_Name);
 	}
 	else
 	{
-		_Collider = new Collider(Vector2(-35, -35), Vector2(35, 35));
+		_Collider = new Collider(Vector2(-30, -30), Vector2(30, 30));
 		_ForwardSpeed = 125;
 		_Name = "Large Asteroid";
 		SetName(_Name);
@@ -46,9 +48,9 @@ void Astroid::Update(float deltaTime)
 	aie::Input* _Input = aie::Input::GetInstance();
 
 	//Calculate Movement
-	Vector2 _Forward(_TempPostion.x, _TempPostion.y);
-	_Acceleration = 100;
-	_Velocity = _Velocity + (_Forward * _Acceleration);
+	Vector2 _Position = GetPosition();
+	Vector2 _Forward(_LocalTransform.m[3], _LocalTransform.m[4]);
+	_Velocity = _Forward * 300;
 
 	if (_Velocity.magnitude() > _ForwardSpeed)
 	{
@@ -60,34 +62,37 @@ void Astroid::Update(float deltaTime)
 	_Position = _Position + (_Velocity * deltaTime);
 
 	//If astroid is off screen
-	if (_Position.y > application->GetWindowHeight() + 70)
+	if (_Position.y > application->GetWindowHeight() + 45)
 	{
-		_Position.y = -70;
-		_TempPostion = _GlobalTransform[1];
-		_Speed = (float)rand()/RAND_MAX;
+		_Position.y = -25;
+		_Speed = rand() % 10;
+		_FX = _LocalTransform.m[3];
+		_FY = _LocalTransform.m[4];
 	}
-	else if (_Position.y < 0 - 70)
+	else if (_Position.y < -45)
+	{	
+		_Position.y = application->GetWindowHeight() + 25;
+		_Speed = rand() % 10;
+		_FX = _LocalTransform.m[3];
+		_FY = _LocalTransform.m[4];
+	}
+	if (_Position.x > application->GetWindowWidth() + 45)
 	{
-		_Position.y = application->GetWindowHeight() + 70;
-		_TempPostion = _GlobalTransform[1];
-		_Speed = (float)rand() / RAND_MAX;
+		_Position.x = -25;
+		_Speed = rand() % 10;
+		_FX = _LocalTransform.m[3];
+		_FY = _LocalTransform.m[4];
 	}
-	if (_Position.x > application->GetWindowWidth() + 70)
+	else if (_Position.x < -45)
 	{
-		_Position.x = -70;
-		_TempPostion = _GlobalTransform[1];
-		_Speed = (float)rand() / RAND_MAX;
+		_Position.x = application->GetWindowWidth() + 25;
+		_Speed = rand() % 10;
+		_FX = _LocalTransform.m[3];
+		_FY = _LocalTransform.m[4];
 	}
-	else if (_Position.x < 0 - 70)
-	{
-		_Position.x = application->GetWindowWidth() + 70;
-		_TempPostion = _GlobalTransform[1];
-		_Speed = (float)rand() / RAND_MAX;
-	}
-
 
 	//Rotation
-	SetRotation(GetRotation() + (_Speed / 10));
+	SetRotation(GetRotation() + (_Speed / 10) * deltaTime);
 
 	//Sets ships position
 	SetPosition(_Position);

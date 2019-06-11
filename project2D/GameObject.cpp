@@ -7,6 +7,7 @@ GameObject::GameObject()
 	_Parent = nullptr;
 	_Collider = nullptr;
 	collided = 0;
+	_Score = 0;
 }
 
 GameObject::GameObject(const char* TextureName)
@@ -147,7 +148,7 @@ void GameObject::RemoveChild(GameObject* Child)
 
 void GameObject::OnCollision(GameObject* OtherObject)
 {
-	std::cout << "Colliding" << std::endl;
+	std::cout << _Name << "Colliding" << OtherObject->GetName() << std::endl;
 }
 
 void GameObject::SetName(std::string name)
@@ -181,4 +182,14 @@ bool GameObject::HasCollider2()
 void GameObject::SetLocalRotation(float newRotation)
 {
 	_LocalTransform.rotation = newRotation;
+}
+
+float GameObject::GetScore()
+{
+	return _Score;
+}
+
+void GameObject::SetScore(float newScore)
+{
+	_Score = newScore;
 }

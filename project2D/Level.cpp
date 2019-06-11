@@ -4,6 +4,8 @@
 
 Level::Level()
 {
+	SetName("Level");
+	_Score = 0;
 	_collisionManager = new CollisionManager();
 
 	_Tank = new Tank();
@@ -17,10 +19,18 @@ Level::Level()
 	_Turret->SetPosition(Vector2(0, 0));
 	_Turret->UpDateGlobalTransform();
 
+	for (int i = 0; i < 10; i++)
+		_collisionManager->AddObject(_Turret->_BulletPool->_Bullet[i]);
+
 	Thrust* _Thrust = new Thrust("./textures/Thrust.png");
 	_Thrust->SetParent(_Tank);
 	_Thrust->SetPosition(Vector2(0, -25));
 	_Thrust->UpDateGlobalTransform();
+
+	_Astroids = new AsteroidManager(_collisionManager);
+	_Astroids->SetParent(this);
+	_Astroids->SetPosition(Vector2(0, 0));
+	_Turret->UpDateGlobalTransform();
 }
 
 Level::~Level()
@@ -55,3 +65,4 @@ Bullet* Level::GetBullet()
 {
 	return _Bullet;
 }
+

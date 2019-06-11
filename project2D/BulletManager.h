@@ -1,17 +1,23 @@
 #pragma once
 #include "GameObject.h"
 #include "Bullet.h"
+#include "CollisionManager.h"
+
 
 class BulletManager : public GameObject
 {
 public:
-	// Constructor
+	// Constructor/Destructor
 	BulletManager();
+	~BulletManager();
 
 	// Functions
-	void Update(float deltaTime, bool shooting, Vector2 _NewRotation);
 	Bullet* GetBullet();
+	bool AreAllBulletsAlive();
 
 	// Variables
 	Bullet* _Bullet[10];
+	Bullet* _OldestBullet;
+	CollisionManager* _BulletCollisionManager;
+
 };

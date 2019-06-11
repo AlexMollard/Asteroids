@@ -6,7 +6,6 @@
 #include "Font.h"
 #include "Input.h"
 #include "Level.h"
-#include "AsteroidManager.h"
 #include <iostream>
 
 Game2D::Game2D(const char* title, int width, int height, bool fullscreen) : Game(title, width, height, fullscreen)
@@ -15,7 +14,6 @@ Game2D::Game2D(const char* title, int width, int height, bool fullscreen) : Game
 	m_2dRenderer = new aie::Renderer2D();
 
 	_Level = new Level();
-	_Astroids = new AsteroidManager();
 
 	m_texture = new aie::Texture("./textures/space2.png");
 	_Font = new aie::Font("./font/consolas.ttf", 24);
@@ -28,6 +26,7 @@ Game2D::Game2D(const char* title, int width, int height, bool fullscreen) : Game
 	}
 
 	timer = 3;
+	score = 0;
 	_Shake = 100;
 	_DefaultCamX;
 	_DefaultCamY;
@@ -47,9 +46,6 @@ Game2D::~Game2D()
 	delete _Font;
 	_Font = nullptr;
 
-	delete _Astroids;
-	_Astroids = nullptr;
-
 	// Delete the renderer.
 	delete m_2dRenderer;
 
@@ -61,40 +57,13 @@ void Game2D::Update(float deltaTime)
 	aie::Application* application = aie::Application::GetInstance();
 	aie::Input* input = aie::Input::GetInstance(); 
 
+	timer = _Level->GetShip()->GetTimer();
+
 	_Level->Update(deltaTime);
 	_Level->UpDateGlobalTransform();
-
 	_Level->GetTurret()->UpdateMouse(deltaTime);
 
-	_Astroids->Update(deltaTime);
-	_Astroids->UpDateGlobalTransform();
-
-	//Check if ship hits asteroid
-	if (_Astroids->CheckForCollisions(_Level->GetShip()) && timer >= 3)
-	{
-		_Level->GetShip()->Hit();
-		timer = 0;
-	}
-	else if (timer <= 2.9 && timer >= 0)
-	{
-		timer += 1 * deltaTime;
-		if (timer < 0.5)
-			_Level->GetShip()->SetTexture(_Level->GetShip()->GetShipHitTexture());
-		else if (timer < 1)
-			_Level->GetShip()->SetTexture(_Level->GetShip()->GetShipTexture());
-		else if (timer < 1.5)
-			_Level->GetShip()->SetTexture(_Level->GetShip()->GetShipHitTexture());
-		else if (timer < 2)
-			_Level->GetShip()->SetTexture(_Level->GetShip()->GetShipTexture());
-		else if (timer < 2.5)
-			_Level->GetShip()->SetTexture(_Level->GetShip()->GetShipHitTexture());
-		else if (timer < 3)
-			_Level->GetShip()->SetTexture(_Level->GetShip()->GetShipTexture());
-	}
-	else if (timer >= 2.9)
-	{
-		timer = 3;
-	}
+	score = _Level->GetScore();
 
 	if (application->GetWindowWidth() != width || application->GetWindowHeight() != height)
 	{
@@ -141,6 +110,13 @@ void Game2D::Draw()
 	m_2dRenderer->DrawText2D(_Font, "No-Damage: ", 100, height - 150);
 	m_2dRenderer->DrawText2D(_Font, t, 240, height - 150);
 
+	//Score
+	char c[20];
+	sprintf(t, "%.2f", score);
+
+	m_2dRenderer->DrawText2D(_Font, "Score: ", 100, height - 200);
+	m_2dRenderer->DrawText2D(_Font, t, 200, height - 200);
+
 	for (int i = 0; i < 50; i++)
 	{
 		_size = rand() % 5;
@@ -151,8 +127,6 @@ void Game2D::Draw()
 	m_2dRenderer->SetRenderColour(1, 1, 1);
 
 	_Level->Draw(m_2dRenderer);
-	_Astroids->Draw(m_2dRenderer);
-
 
 	// Done drawing sprites. Must be called at the end of the Draw().
 	m_2dRenderer->End();

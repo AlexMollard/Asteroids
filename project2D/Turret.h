@@ -16,6 +16,8 @@ public:
 	void SetShooting(bool setting);
 	bool GetShooting();
 
+	//Collider
+
 	// Variables
 	int counter;
 	float _Speed;

@@ -21,6 +21,8 @@ public:
 	Vector2 _Velocity;
 	Vector2 _Position;
 	Vector2 ForwardBuf;
-
 	Vector3 _TempPostion;
+
+	int _FX;
+	int _FY;
 };

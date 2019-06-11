@@ -46,10 +46,13 @@ public:
 	bool HasCollider2();
 	void SetLocalRotation(float newRotation);
 
+	float GetScore();
+	void SetScore(float newScore);
+
 	std::string GameObject::GetName();
 	void SetName(std::string name);
 	std::string _Name;
-
+	float _Score;
 protected:
 
 	GameObject* _Parent;
